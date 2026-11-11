@@ -1,0 +1,493 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>Ventas POS | CandyKane</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ventas.css') }}">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    {% include 'components/sidebar.html' %}
+
+    <div class="main-area">
+
+        {% include 'components/navbar.html' %}
+
+        <main class="dashboard-content">
+
+            <!-- ENCABEZADO -->
+            <div class="ventas-encabezado">
+                <div>
+                    <span class="section-label">MÓDULO 2</span>
+                    <h1>Registro de ventas</h1>
+                    <p>
+                        Selecciona productos, valida existencias
+                        y genera la factura.
+                    </p>
+                </div>
+
+                <button type="button"
+                        class="btn-producto"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalProducto">
+                    <i class="bi bi-plus-lg"></i>
+                    Producto
+                </button>
+            </div>
+
+            <!-- MENSAJES DE FLASK -->
+            {% with mensajes = get_flashed_messages(with_categories=true) %}
+                {% for categoria, mensaje in mensajes %}
+                <div class="alert alert-{{ categoria }}" role="alert">
+                    {{ mensaje }}
+                </div>
+                {% endfor %}
+            {% endwith %}
+
+            <!-- MENSAJES DE JAVASCRIPT -->
+            <div id="mensajeVenta"
+                 role="status"
+                 aria-live="polite"></div>
+
+            <div class="ventas-layout">
+
+                <!-- ================================= -->
+                <!-- CATÁLOGO -->
+                <!-- ================================= -->
+
+                <section class="catalogo-panel">
+
+                    <div class="panel-header">
+                        <h5>Catálogo disponible</h5>
+                        <span>{{ productos | length }} productos</span>
+                    </div>
+
+                    <div class="productos-grid">
+
+                        {% for producto in productos %}
+
+                        <div class="producto-card"
+                             data-id="{{ producto.id_producto }}"
+                             data-nombre="{{ producto.nombre_producto }}"
+                             data-precio="{{ producto.precio }}"
+                             data-stock="{{ producto.cantidad_disponible }}">
+
+                            <!-- BOTÓN EDITAR PRODUCTO -->
+                            {% if session.get('rol') == 'administrador' %}
+                            <button type="button"
+                                    class="btn-editar-producto"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalEditar{{ producto.id_producto }}"
+                                    title="Editar {{ producto.nombre_producto }}"
+                                    aria-label="Editar {{ producto.nombre_producto }}">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            {% endif %}
+
+                            <div class="producto-icono">
+                                <i class="bi bi-cake2"></i>
+                            </div>
+
+                            <h6>{{ producto.nombre_producto }}</h6>
+
+                            <small>
+                                Producto #{{ producto.id_producto }}
+                            </small>
+
+                            <div class="producto-inferior">
+                                <div>
+                                    <strong>
+                                        $ {{ "{:,.2f}".format(producto.precio) }}
+                                    </strong>
+
+
+                                    <!-- NUEVO: ALERTA DE STOCK BAJO -->
+
+                                    {% if producto.cantidad_disponible <= 0 %}
+
+                                    <small class="text-danger fw-bold"
+                                           role="status">
+                                        <i class="bi bi-x-circle-fill me-1"></i>
+                                        Agotado
+                                    </small>
+
+                                    {% elif producto.cantidad_disponible < 3 %}
+
+                                    <small class="text-danger fw-bold"
+                                           role="status">
+                                        <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                                        ¡Stock bajo! Solo {{ producto.cantidad_disponible }} disponibles
+                                    </small>
+
+                                    {% else %}
+
+                                    <small>
+                                        {{ producto.cantidad_disponible }}
+                                        disponibles
+                                    </small>
+
+                                    {% endif %}
+
+                                </div>
+
+                                <button type="button"
+                                        class="btn-agregar"
+                                        aria-label="Agregar {{ producto.nombre_producto }}"
+                                        {% if producto.cantidad_disponible <= 0 %}
+                                        disabled
+                                        {% endif %}>
+                                    <i class="bi bi-plus-lg"></i>
+                                </button>
+                            </div>
+
+                        </div>
+
+                        {% else %}
+                        <p class="text-muted">
+                            Todavía no hay productos registrados.
+                        </p>
+                        {% endfor %}
+
+                    </div>
+
+                </section>
+
+                <!-- DETALLE DEL PEDIDO -->
+
+                <aside class="pedido-panel">
+
+                    <div class="pedido-header">
+                        <span class="section-label">VENTA ACTUAL</span>
+                        <h5>Detalle del pedido</h5>
+                    </div>
+
+                    <div class="pedido-contenido">
+
+                        <label for="clienteVenta">Cliente</label>
+
+                        <select id="clienteVenta" class="form-select">
+                            <option value="">
+                                Seleccionar cliente...
+                            </option>
+
+                            {% for cliente in clientes %}
+                            <option value="{{ cliente.id_cliente }}">
+                                {{ cliente.nombre }}
+                            </option>
+                            {% endfor %}
+                        </select>
+
+                        <label for="metodoPago">
+                            Método de pago
+                        </label>
+
+                        <select id="metodoPago" class="form-select">
+                            <option value="Efectivo">Efectivo</option>
+                            <option value="Transferencia">Transferencia</option>
+                            <option value="Tarjeta">Tarjeta</option>
+                        </select>
+
+                        <!-- CARRITO -->
+                        <div id="listaPedido" class="lista-pedido">
+                            <div class="pedido-vacio">
+                                <i class="bi bi-cart3"></i>
+                                <p>Tu pedido está vacío</p>
+                            </div>
+                        </div>
+
+                        <!-- TOTAL Y COBRO -->
+                        <div class="pedido-footer">
+
+                            <div class="pedido-total">
+                                <strong>Total</strong>
+                                <strong id="totalPedido">$ 0.00</strong>
+                            </div>
+
+                            <button type="button"
+                                    id="btnCobrar"
+                                    class="btn-cobrar"
+                                    disabled>
+                                Cobrar y generar factura
+                                <i class="bi bi-receipt"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<!-- MODAL CREAR PRODUCTO -->
+
+{% include 'ventas/modal_producto.html' %}
+
+
+<!--  MODALES EDITAR PRODUCTO -->
+
+{% if session.get('rol') == 'administrador' %}
+
+    {% for producto in productos %}
+
+    <div class="modal fade"
+         id="modalEditar{{ producto.id_producto }}"
+         tabindex="-1"
+         aria-labelledby="tituloEditar{{ producto.id_producto }}"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content modal-editar-producto">
+
+                <div class="modal-header">
+                    <div>
+                        <span class="section-label">
+                            INVENTARIO
+                        </span>
+
+                        <h4 id="tituloEditar{{ producto.id_producto }}"
+                            class="mb-0">
+                            Editar producto
+                        </h4>
+                    </div>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Cerrar">
+                    </button>
+                </div>
+
+                <form method="POST"
+                      action="{{ url_for('ventas.editar_producto', id_producto=producto.id_producto) }}">
+
+                    <input type="hidden"
+                           name="csrf_token"
+                           value="{{ csrf_token() }}">
+
+                    <div class="modal-body">
+
+                        <!-- NOMBRE -->
+                        <label class="form-label"
+                               for="nombreEditar{{ producto.id_producto }}">
+                            Nombre *
+                        </label>
+
+                        <input type="text"
+                               id="nombreEditar{{ producto.id_producto }}"
+                               name="nombre"
+                               class="form-control mb-3"
+                               value="{{ producto.nombre_producto }}"
+                               maxlength="100"
+                               required>
+
+                        <div class="row g-3 mb-3">
+
+                            <!-- PRECIO -->
+                            <div class="col-md-6">
+                                <label class="form-label"
+                                       for="precioEditar{{ producto.id_producto }}">
+                                    Precio *
+                                </label>
+
+                                <input type="number"
+                                       id="precioEditar{{ producto.id_producto }}"
+                                       name="precio"
+                                       class="form-control"
+                                       value="{{ producto.precio }}"
+                                       min="0.01"
+                                       max="99999999.99"
+                                       step="0.01"
+                                       required>
+                            </div>
+
+                            <!-- STOCK -->
+                            <div class="col-md-6">
+                                <label class="form-label"
+                                       for="stockEditar{{ producto.id_producto }}">
+                                    Stock *
+                                </label>
+
+                                <input type="number"
+                                       id="stockEditar{{ producto.id_producto }}"
+                                       name="stock"
+                                       class="form-control"
+                                       value="{{ producto.cantidad_disponible }}"
+                                       min="0"
+                                       step="1"
+                                       required>
+                            </div>
+
+                        </div>
+
+                        <!-- DESCRIPCIÓN -->
+                        <label class="form-label"
+                               for="descripcionEditar{{ producto.id_producto }}">
+                            Descripción
+                        </label>
+
+                        <textarea id="descripcionEditar{{ producto.id_producto }}"
+                                  name="descripcion"
+                                  class="form-control"
+                                  rows="3">{{ producto.descripcion or '' }}</textarea>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button"
+                                class="btn btn-outline-secondary"
+                                data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+
+                        <button type="submit"
+                                class="btn btn-guardar-edicion">
+                            <i class="bi bi-check-lg me-1"></i>
+                            Guardar producto
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+{% endif %}
+
+
+<!-- MODAL CONFIRMAR VENTA-->
+
+<div class="modal fade"
+     id="modalConfirmarVenta"
+     tabindex="-1"
+     aria-labelledby="tituloConfirmarVenta"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content modal-confirmar-venta">
+
+            <div class="modal-body p-4">
+
+                <div class="d-flex justify-content-between align-items-start">
+
+                    <div class="confirmar-icono">
+                        <i class="bi bi-bag-check"></i>
+                    </div>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Cerrar">
+                    </button>
+
+                </div>
+
+                <h3 id="tituloConfirmarVenta"
+                    class="confirmar-titulo">
+                    ¿Confirmar venta?
+                </h3>
+
+                <p class="confirmar-descripcion">
+                    Estás a punto de registrar esta venta
+                    y descontar las existencias del inventario.
+                </p>
+
+                <div class="confirmar-resumen">
+
+                    <div>
+                        <span>Cliente</span>
+                        <strong id="confirmarCliente">—</strong>
+                    </div>
+
+                    <div>
+                        <span>Productos</span>
+                        <strong id="confirmarProductos">
+                            0 unidades
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Método de pago</span>
+                        <strong id="confirmarMetodo">—</strong>
+                    </div>
+
+                    <div class="confirmar-total">
+                        <span>Total a cobrar</span>
+                        <strong id="confirmarTotal">
+                            $ 0.00
+                        </strong>
+                    </div>
+
+                </div>
+
+                <div class="confirmar-acciones">
+
+                    <button type="button"
+                            class="btn-confirmar-cancelar"
+                            data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <button type="button"
+                            id="btnConfirmarVenta"
+                            class="btn-confirmar-guardar">
+                        <i class="bi bi-check-lg"></i>
+                        Confirmar venta
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!--  CONFIGURACIÓN DE VENTAS-->
+
+<div id="configVentas"
+     data-url-cobrar="{{ url_for('ventas.cobrar') }}"
+     hidden>
+</div>
+
+
+<!-- BOOTSTRAP Y JAVASCRIPT-->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="{{ url_for('static', filename='js/ventas.js') }}"></script>
+
+</body>
+</html>

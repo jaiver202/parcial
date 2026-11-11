@@ -1,0 +1,103 @@
+
+<div class="modal fade" id="modalCliente" tabindex="-1"
+     aria-labelledby="tituloModalCliente" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content cliente-modal">
+
+            <form id="formCliente" method="POST"
+                  action="{{ url_for('clientes.crear') }}">
+
+                <input type="hidden" name="csrf_token"
+                       value="{{ csrf_token() }}">
+
+                <div class="modal-header">
+                    <div>
+                        <span class="section-label">
+                            INFORMACIÓN CRM
+                        </span>
+                        <h4 class="modal-title" id="tituloModalCliente">
+                            Nuevo cliente
+                        </h4>
+                    </div>
+
+                    <button type="button" class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <label for="clienteNombre" class="form-label">
+                                Nombre completo *
+                            </label>
+                            <input type="text" class="form-control"
+                                   id="clienteNombre" name="nombre"
+                                   maxlength="100" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="clientePais" class="form-label">
+                                Nacionalidad / país *
+                            </label>
+                            <input type="text" class="form-control"
+                                   id="clientePais" name="pais"
+                                   maxlength="50" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="clienteEmail" class="form-label">
+                                Correo
+                            </label>
+                            <input type="email" class="form-control"
+                                   id="clienteEmail" name="email"
+                                   maxlength="100">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="clienteTelefono" class="form-label">
+                                Teléfono
+                            </label>
+                            <input type="tel" class="form-control"
+                                   id="clienteTelefono" name="telefono"
+                                   maxlength="20">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="clienteCiudad" class="form-label">
+                                Ciudad
+                            </label>
+                            <input type="text" class="form-control"
+                                   id="clienteCiudad" name="ciudad"
+                                   maxlength="50">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="clienteDireccion" class="form-label">
+                                Dirección
+                            </label>
+                            <input type="text" class="form-control"
+                                   id="clienteDireccion" name="direccion"
+                                   maxlength="150">
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancelar"
+                            data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="btn-guardar">
+                        <span id="textoGuardar">Guardar cliente</span>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

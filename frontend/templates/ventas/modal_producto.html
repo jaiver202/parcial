@@ -1,0 +1,89 @@
+
+<div class="modal fade" id="modalProducto" tabindex="-1"
+     aria-labelledby="tituloProducto" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content producto-modal">
+
+            <form method="POST"
+                  action="{{ url_for('ventas.crear_producto') }}">
+
+                <input type="hidden" name="csrf_token"
+                       value="{{ csrf_token() }}">
+
+                <div class="modal-header">
+                    <div>
+                        <span class="section-label">INVENTARIO</span>
+                        <h4 class="modal-title" id="tituloProducto">
+                            Nuevo producto
+                        </h4>
+                    </div>
+
+                    <button type="button" class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row g-3">
+
+                        <div class="col-12">
+                            <label class="form-label" for="nombreProducto">
+                                Nombre *
+                            </label>
+                            <input type="text" name="nombre"
+                                   id="nombreProducto"
+                                   class="form-control"
+                                   maxlength="100" required>
+                        </div>
+
+                        <div class="col-6">
+                            <label class="form-label" for="precioProducto">
+                                Precio *
+                            </label>
+                            <input type="number" name="precio"
+                                   id="precioProducto"
+                                   class="form-control"
+                                   min="0.01" max="99999999.99"
+                                   step="0.01" required>
+                        </div>
+
+                        <div class="col-6">
+                            <label class="form-label" for="stockProducto">
+                                Existencias *
+                            </label>
+                            <input type="number" name="cantidad"
+                                   id="stockProducto"
+                                   class="form-control"
+                                   min="0" step="1"
+                                   value="0" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label" for="descripcionProducto">
+                                Descripción
+                            </label>
+                            <textarea name="descripcion"
+                                      id="descripcionProducto"
+                                      class="form-control"
+                                      rows="3"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancelar"
+                            data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="btn-guardar">
+                        Guardar producto
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

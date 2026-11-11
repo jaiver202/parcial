@@ -1,0 +1,18 @@
+
+<header class="topbar">
+
+    <div>
+        <!-- TÍTULO DINÁMICO -->
+        <h6>{{ titulo_pagina | default('Resumen') }}</h6>
+
+        <!-- FECHA ACTUAL -->
+        <small>{{ fecha_actual }}</small>
+    </div>
+
+    <!-- ESTADO DEL SISTEMA -->
+    <div class="system-status">
+        <span class="status-dot"></span>
+        Sistema activo
+    </div>
+
+</header>

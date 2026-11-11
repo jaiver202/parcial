@@ -1,0 +1,107 @@
+
+{% for producto in resumen.alertas %}
+
+<div class="modal fade"
+     id="modalStock{{ producto.id_producto }}"
+     tabindex="-1"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-inventario">
+
+            <div class="modal-header">
+                <div>
+                    <span class="section-label">
+                        GESTIÓN DE INVENTARIO
+                    </span>
+                    <h4 class="mb-0">Reponer producto</h4>
+                </div>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Cerrar">
+                </button>
+            </div>
+
+            <form method="POST"
+                  action="{{ url_for('auth.reponer_inventario', id_producto=producto.id_producto) }}">
+
+                <input type="hidden"
+                       name="csrf_token"
+                       value="{{ csrf_token() }}">
+
+                <div class="modal-body">
+
+                    <div class="inventario-producto">
+                        <div class="inventario-icono">
+                            <i class="bi bi-exclamation-triangle"></i>
+                        </div>
+
+                        <div class="flex-grow-1">
+                            <strong>{{ producto.nombre_producto }}</strong>
+                            <small class="d-block text-muted">
+                                Producto #{{ producto.id_producto }}
+                            </small>
+                        </div>
+
+                        <span class="inventario-estado">
+                            Stock bajo
+                        </span>
+                    </div>
+
+                    <div class="row g-3 my-2">
+                        <div class="col-6">
+                            <div class="inventario-dato">
+                                <small>Stock actual</small>
+                                <h4>{{ producto.cantidad_disponible }} u.</h4>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="inventario-dato">
+                                <small>Stock mínimo</small>
+                                <h4>3 u.</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <label class="form-label fw-semibold">
+                        Cantidad que deseas agregar
+                    </label>
+
+                    <input type="number"
+                           name="cantidad"
+                           class="form-control input-reposicion"
+                           min="1"
+                           step="1"
+                           value="1"
+                           required>
+
+                    <small class="text-muted d-block mt-2">
+                        Las unidades se sumarán al stock actual.
+                    </small>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-outline-secondary"
+                            data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-guardar-stock">
+                        <i class="bi bi-check-lg me-1"></i>
+                        Guardar cambios
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endfor %}

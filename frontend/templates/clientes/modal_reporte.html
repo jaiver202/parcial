@@ -1,0 +1,137 @@
+
+<!-- ========================================== -->
+<!-- MODAL REPORTE DE CLIENTES -->
+<!-- ========================================== -->
+
+<div class="modal fade"
+     id="modalReporte"
+     tabindex="-1"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+
+        <div class="modal-content reporte-modal">
+
+            <!-- ENCABEZADO -->
+            <div class="modal-header">
+
+                <div>
+                    <span class="section-label">
+                        REPORTE DE CLIENTES
+                    </span>
+
+                    <h4>Clasificación por nacionalidad</h4>
+                </div>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Cerrar">
+                </button>
+
+            </div>
+
+            <!-- CONTENIDO DEL REPORTE -->
+            <div class="modal-body">
+
+                <div class="reporte-documento"
+                     id="documentoReporte">
+
+                    <!-- CABECERA -->
+                    <div class="reporte-cabecera">
+
+                        <div>
+                            <h3>CandyKane</h3>
+                            <p>Reporte CRM de clientes</p>
+                        </div>
+
+                        <small>{{ fecha_actual }}</small>
+
+                    </div>
+
+                    <!-- TABLA DEL REPORTE -->
+                    <div class="table-responsive">
+
+                        <table class="table tabla-reporte">
+
+                            <thead>
+                                <tr>
+                                    <th>NACIONALIDAD</th>
+                                    <th>CLIENTES</th>
+                                    <th>PARTICIPACIÓN</th>
+                                </tr>
+                            </thead>
+
+                            <!-- DATOS REALES DE MYSQL -->
+                            <tbody id="reporteNacionalidades">
+
+                                {% for fila in reporte %}
+
+                                <tr>
+                                    <td>{{ fila.nacionalidad }}</td>
+                                    <td>{{ fila.cantidad }}</td>
+                                    <td>{{ fila.porcentaje }}%</td>
+                                </tr>
+
+                                {% else %}
+
+                                <tr>
+                                    <td colspan="3"
+                                        class="text-center text-muted py-3">
+                                        No hay clientes registrados.
+                                    </td>
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                            <!-- TOTAL GENERAL -->
+                            <tfoot>
+                                <tr>
+                                    <th>Total general</th>
+
+                                    <th id="reporteTotal">
+                                        {{ total_reporte }}
+                                    </th>
+
+                                    <th id="reportePorcentaje">
+                                        {{ '100%' if total_reporte > 0 else '0%' }}
+                                    </th>
+                                </tr>
+                            </tfoot>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- BOTONES -->
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal">
+                    Cerrar
+                </button>
+
+                <!-- IMPRIMIR SIN ABRIR OTRA PESTAÑA -->
+                <button type="button"
+                        id="btnImprimirReporte"
+                        class="btn btn-reporte-imprimir">
+
+                    <i class="bi bi-printer me-2"></i>
+                    Imprimir reporte
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

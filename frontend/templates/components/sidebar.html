@@ -1,0 +1,101 @@
+
+<aside class="sidebar">
+
+    <!-- LOGO CANDYKANE -->
+    <div class="sidebar-brand">
+        <div class="brand-icon">C</div>
+        <div>
+            <h4>CandyKane</h4>
+            <small>CRM + PUNTO DE VENTA</small>
+        </div>
+    </div>
+
+    <!-- TÍTULO DE NAVEGACIÓN -->
+    <div class="sidebar-label">NAVEGACIÓN</div>
+
+    <!-- MENÚ LATERAL -->
+    <nav class="sidebar-nav">
+
+        <!-- RESUMEN -->
+        <a href="{{ url_for('auth.dashboard') }}"
+           class="nav-item {% if request.endpoint == 'auth.dashboard' %}active{% endif %}">
+            <i class="bi bi-grid"></i>
+            <span>Resumen</span>
+        </a>
+
+        <!-- CLIENTES -->
+        <a href="{{ url_for('clientes.listar') }}"
+           class="nav-item {% if request.endpoint == 'clientes.listar' %}active{% endif %}">
+            <i class="bi bi-people"></i>
+            <span>Clientes</span>
+        </a>
+
+        <!-- VENTAS POS -->
+        <a href="{{ url_for('ventas.index') }}"
+            class="nav-item {% if request.endpoint == 'ventas.index' %}active{% endif %}">
+            <i class="bi bi-cart3"></i>
+            <span>Ventas POS</span>
+        </a>
+
+        <!-- FACTURAS -->
+       <!-- FACTURAS -->
+        <a href="{{ url_for('facturas.listar') }}"
+             class="nav-item {% if request.endpoint and request.endpoint.startswith('facturas.') %}active{% endif %}">
+            <i class="bi bi-receipt"></i>
+            <span>Facturas</span>
+        </a>
+
+        <!-- USUARIOS: SOLO ADMINISTRADOR -->
+        {% if session.get('rol') == 'administrador' %}
+        <a href="{{ url_for('usuarios.index') }}"
+            class="nav-item {% if request.blueprint == 'usuarios' %}active{% endif %}">
+             <i class="bi bi-person-plus"></i>
+            <span>Usuarios</span>
+
+        </a>
+        {% endif %}
+
+    </nav>
+
+    <!-- USUARIO CONECTADO -->
+    <div class="sidebar-user">
+
+        <!-- AVATAR -->
+        <div class="user-avatar">
+            {{ session.get('nombre_usuario', 'U')[:2] | upper }}
+        </div>
+
+        <!-- INFORMACIÓN DEL USUARIO -->
+        <div class="user-details">
+            <strong>
+                {{ session.get('nombre_usuario', 'Usuario') }}
+            </strong>
+
+            <small>
+                {{ session.get('rol', 'usuario') | capitalize }}
+            </small>
+        </div>
+
+        <!-- CERRAR SESIÓN -->
+        <form method="POST" action="{{ url_for('auth.logout') }}">
+
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+            >
+
+            <button
+                type="submit"
+                class="logout-btn"
+                title="Cerrar sesión"
+                aria-label="Cerrar sesión"
+            >
+                <i class="bi bi-box-arrow-right"></i>
+            </button>
+
+        </form>
+
+    </div>
+
+</aside>

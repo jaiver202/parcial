@@ -1,0 +1,362 @@
+
+/* PÁGINA DE CLIENTES */
+
+.clientes-content {
+    padding-top: 24px;
+}
+
+.clientes-heading {
+    margin-bottom: 20px;
+}
+
+.clientes-heading h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: #301321;
+    margin: 5px 0;
+}
+
+.clientes-heading p {
+    color: #947f89;
+    font-size: 13px;
+    margin: 0;
+}
+
+/* BOTONES SUPERIORES */
+
+.clientes-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 17px;
+}
+
+.btn-reporte,
+.btn-cancelar {
+    background: white;
+    border: 1px solid #ead7df;
+    border-radius: 9px;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #543544;
+}
+
+.btn-reporte:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.btn-guardar {
+    background: #a33765;
+    color: white;
+    border: none;
+    border-radius: 9px;
+    padding: 11px 17px;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 5px 12px rgba(163,55,101,.15);
+}
+
+.btn-guardar:hover {
+    background: #892c54;
+}
+
+/* CONTENEDOR DE TABLA */
+
+.clientes-card {
+    background: white;
+    border: 1px solid #eedee3;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 5px 18px rgba(50,20,35,.025);
+}
+
+.clientes-toolbar {
+    padding: 11px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 1px solid #f0e5e9;
+}
+
+.buscador-clientes {
+    width: 340px;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fcf9fa;
+    border: 1px solid #eadce2;
+    border-radius: 9px;
+    padding: 10px 12px;
+    color: #ac91a0;
+}
+
+.buscador-clientes input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 11px;
+    color: #321523;
+}
+
+.buscador-clientes input::placeholder {
+    color: #b99eaa;
+}
+
+.clientes-count {
+    font-size: 11px;
+    font-weight: 700;
+    color: #8e6277;
+    white-space: nowrap;
+}
+
+/* TABLA */
+
+.tabla-clientes {
+    font-size: 11px;
+    vertical-align: middle;
+}
+
+.tabla-clientes thead th {
+    background: #fdf9fa;
+    color: #987b89;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .4px;
+    padding: 13px 15px;
+    border-bottom: 1px solid #f0e5e9;
+}
+
+.tabla-clientes tbody td {
+    padding: 11px 15px;
+    color: #806a75;
+    border-color: #f3eaee;
+}
+
+.cliente-identidad {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cliente-avatar {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: #f7e4ec;
+    color: #a33765;
+    font-weight: 700;
+}
+
+.cliente-identidad strong {
+    display: block;
+    color: #321523;
+    font-size: 11px;
+}
+
+.cliente-identidad small {
+    display: block;
+    color: #a28a96;
+    font-size: 10px;
+    margin-top: 3px;
+}
+
+/* ACCIONES */
+
+.acciones-tabla {
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+}
+
+.btn-accion {
+    border: none;
+    background: transparent;
+    color: #a38b98;
+    padding: 5px;
+    font-size: 13px;
+}
+
+.btn-accion:hover {
+    color: #a33765;
+}
+
+/* MODAL */
+
+.cliente-modal {
+    border: 1px solid #eedee3;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 25px 70px rgba(30,10,20,.15);
+}
+
+.cliente-modal .modal-header {
+    padding: 18px 21px;
+    border-bottom: 1px solid #f0e5e9;
+}
+
+.cliente-modal .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 23px;
+    font-weight: 700;
+    color: #321523;
+    margin-top: 5px;
+}
+
+.cliente-modal .modal-body {
+    padding: 22px 21px;
+}
+
+.cliente-modal .form-label {
+    color: #593c49;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.cliente-modal .form-control {
+    height: 36px;
+    border: 1px solid #ecdce3;
+    border-radius: 9px;
+    font-size: 12px;
+}
+
+.cliente-modal .form-control:focus {
+    border-color: #b65a7d;
+    box-shadow: 0 0 0 3px rgba(163,55,101,.1);
+}
+
+.cliente-modal .modal-footer {
+    background: #fdf9fa;
+    border-top: 1px solid #f0e5e9;
+    padding: 15px 21px;
+}
+
+@media (max-width: 700px) {
+    .clientes-heading h1 {
+        font-size: 27px;
+    }
+
+    .clientes-toolbar {
+        flex-wrap: wrap;
+    }
+
+    .buscador-clientes {
+        width: 100%;
+    }
+
+    .tabla-clientes {
+        min-width: 650px;
+    }
+
+    .cliente-modal .modal-body {
+        padding: 16px;
+    }
+}
+
+/* Modal reporte de nacionalidad */
+
+.reporte-modal {
+    border: 1px solid #ead9e0;
+    border-radius: 12px;
+    overflow: hidden;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.reporte-modal .modal-header {
+    padding: 22px;
+    border-bottom: 1px solid #f0e1e6;
+}
+
+.reporte-modal .modal-header h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 25px;
+    color: #301321;
+    margin: 6px 0 0;
+}
+
+.reporte-modal .modal-body {
+    padding: 20px 22px;
+}
+
+.reporte-documento {
+    border: 1px solid #eedbe2;
+    border-radius: 12px;
+    padding: 24px;
+    background: white;
+}
+
+.reporte-cabecera {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid #f0e1e6;
+    padding-bottom: 16px;
+    margin-bottom: 18px;
+}
+
+.reporte-cabecera h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 27px;
+    color: #ad3768;
+    margin: 0;
+}
+
+.reporte-cabecera p,
+.reporte-cabecera small {
+    font-size: 12px;
+    color: #977a88;
+    margin: 0;
+}
+
+.tabla-reporte {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.tabla-reporte thead th {
+    background: #f8e8ee;
+    color: #ad3768;
+    font-size: 11px;
+    padding: 13px 12px;
+}
+
+.tabla-reporte tbody td,
+.tabla-reporte tfoot th {
+    padding: 13px 12px;
+    border-bottom: 1px solid #eedbe2;
+    font-size: 13px;
+    color: #301321;
+}
+
+.tabla-reporte tfoot th {
+    font-weight: 700;
+}
+
+.reporte-modal .modal-footer {
+    background: #fdf9fa;
+    border-top: 1px solid #f0e1e6;
+    padding: 17px 22px;
+}
+
+.btn-reporte-imprimir {
+    background: #b6547c;
+    color: white;
+    border-radius: 9px;
+    font-weight: 600;
+    padding: 10px 18px;
+}
+
+.btn-reporte-imprimir:hover {
+    background: #97385f;
+    color: white;
+}

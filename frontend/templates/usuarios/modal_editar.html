@@ -1,0 +1,131 @@
+
+<div class="modal fade"
+     id="modalEditarUsuario"
+     tabindex="-1"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content modal-usuario">
+
+            <form method="POST"
+                  id="formEditarUsuario">
+
+                <input type="hidden"
+                       name="csrf_token"
+                       value="{{ csrf_token() }}">
+
+                <div class="modal-header">
+
+                    <div>
+                        <span class="section-label">
+                            ACCESO AL SISTEMA
+                        </span>
+
+                        <h4>Editar usuario</h4>
+                    </div>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Nombre completo *
+                        </label>
+
+                        <input type="text"
+                               id="editarNombre"
+                               name="nombre_usuario"
+                               class="form-control"
+                               maxlength="50"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Correo *</label>
+
+                        <input type="email"
+                               id="editarEmail"
+                               name="email"
+                               class="form-control"
+                               maxlength="100"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Rol</label>
+
+                        <select id="editarRol"
+                                name="rol"
+                                class="form-select">
+
+                            <option value="vendedor">
+                                Vendedor
+                            </option>
+
+                            <option value="administrador">
+                                Administrador
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Nueva contraseña (opcional)
+                        </label>
+
+                        <input type="password"
+                               name="contrasena"
+                               class="form-control"
+                               minlength="8"
+                               maxlength="72"
+                               autocomplete="new-password"
+                               placeholder="Mínimo 8 caracteres">
+                    </div>
+
+                    <div class="form-check">
+
+                        <input type="hidden"
+                               name="estado"
+                               id="editarEstadoValor"
+                               value="inactivo">
+
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="editarEstado">
+
+                        <label class="form-check-label"
+                               for="editarEstado">
+                            Cuenta activa
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button"
+                            class="btn-cancelar"
+                            data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <button type="submit"
+                            class="btn-guardar">
+                        Guardar usuario
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

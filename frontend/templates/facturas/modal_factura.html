@@ -1,0 +1,107 @@
+
+<!-- ========================================== -->
+<!-- MODAL DE FACTURA -->
+<!-- ========================================== -->
+
+<div class="modal fade"
+     id="modalDetalleFactura"
+     tabindex="-1"
+     aria-labelledby="tituloModalFactura"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+
+        <div class="modal-content modal-factura-candy">
+
+            <!-- ENCABEZADO -->
+            <div class="modal-header">
+
+                <div class="encabezado-factura">
+
+                    <span class="section-label">
+                        COMPROBANTE DE VENTA
+                    </span>
+
+                    <div class="titulo-factura-contenedor">
+
+                        <h4>Detalle de factura</h4>
+
+                        <span id="tituloModalFactura"
+                              class="numero-factura-modal">
+                            Cargando...
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Cerrar">
+                </button>
+
+            </div>
+
+
+            <!-- ================================= -->
+            <!-- CONTENIDO DINÁMICO DE LA FACTURA -->
+            <!-- ================================= -->
+
+            <div class="modal-body"
+                 id="contenidoModalFactura">
+
+                <div class="text-center py-5">
+
+                    <div class="spinner-border text-secondary"
+                         role="status">
+                    </div>
+
+                    <p class="mt-3 text-muted">
+                        Cargando factura...
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================= -->
+            <!-- BOTONES DEL MODAL -->
+            <!-- ================================= -->
+
+            <div class="modal-footer">
+
+                <!-- BOTÓN CERRAR -->
+                <button type="button"
+                        class="btn-factura-secundario"
+                        data-bs-dismiss="modal">
+
+                    Cerrar
+
+                </button>
+
+
+                <!-- ================================= -->
+                <!-- BOTÓN IMPRIMIR FACTURA EN PDF -->
+                <!-- ================================= -->
+
+                <button type="button"
+                        id="btnImprimirFactura"
+                        class="btn-factura-principal"
+                        data-url-pdf="{{ url_for('facturas.descargar_pdf', id_venta=0) }}"
+                        title="Abrir factura en PDF para imprimir"
+                        disabled>
+
+                    <i class="bi bi-printer"></i>
+                    Imprimir
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

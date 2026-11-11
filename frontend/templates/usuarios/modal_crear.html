@@ -1,0 +1,127 @@
+
+<div class="modal fade"
+     id="modalCrearUsuario"
+     tabindex="-1"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content modal-usuario">
+
+            <form method="POST"
+                  action="{{ url_for('usuarios.crear') }}">
+
+                <input type="hidden"
+                       name="csrf_token"
+                       value="{{ csrf_token() }}">
+
+                <div class="modal-header">
+                    <div>
+                        <span class="section-label">
+                            ACCESO AL SISTEMA
+                        </span>
+
+                        <h4>Nuevo usuario</h4>
+
+                        <p>Completa los datos para crear una cuenta.</p>
+                    </div>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal">
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label class="form-label">Nombre *</label>
+
+                        <input type="text"
+                               name="nombre_usuario"
+                               class="form-control"
+                               maxlength="50"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Correo *</label>
+
+                        <input type="email"
+                               name="email"
+                               class="form-control"
+                               maxlength="100"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Contraseña *</label>
+
+                        <input type="password"
+                               name="contrasena"
+                               class="form-control"
+                               minlength="8"
+                               maxlength="72"
+                               autocomplete="new-password"
+                               required>
+
+                        <small class="text-muted">
+                            Mínimo 8 caracteres.
+                        </small>
+                    </div>
+
+                    <div class="row g-3">
+
+                        <div class="col-6">
+                            <label class="form-label">Rol *</label>
+
+                            <select name="rol"
+                                    class="form-select"
+                                    required>
+                                <option value="vendedor">
+                                    Vendedor
+                                </option>
+
+                                <option value="administrador">
+                                    Administrador
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-6">
+                            <label class="form-label">Estado *</label>
+
+                            <select name="estado"
+                                    class="form-select"
+                                    required>
+                                <option value="activo">
+                                    Activo
+                                </option>
+
+                                <option value="inactivo">
+                                    Inactivo
+                                </option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn-cancelar"
+                            data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <button type="submit"
+                            class="btn-guardar">
+                        Guardar usuario
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

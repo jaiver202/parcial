@@ -1,0 +1,280 @@
+
+:root {
+    --vino: #351522;
+    --vino-claro: #702a49;
+    --rosado: #a43b69;
+    --rosa-suave: #dda0b9;
+    --fondo: #fffafb;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--fondo);
+}
+
+/* PANEL IZQUIERDO */
+
+.panel-marca {
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(
+        135deg,
+        #702a49 0%,
+        #461e30 45%,
+        #2b111d 100%
+    );
+    color: white;
+}
+
+.contenido-marca {
+    width: 100%;
+    max-width: 650px;
+    padding: 65px;
+    position: relative;
+    z-index: 2;
+}
+
+.circulo {
+    position: absolute;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 50%;
+    width: 380px;
+    height: 380px;
+}
+
+.circulo-superior {
+    top: -160px;
+    right: -140px;
+}
+
+.circulo-inferior {
+    bottom: -280px;
+    left: -140px;
+}
+
+/* MARCA */
+
+.marca {
+    margin-bottom: 65px;
+}
+
+.marca-icono {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255,255,255,0.13);
+    border: 1px solid rgba(255,255,255,0.12);
+    font-family: 'Playfair Display', serif;
+    font-size: 23px;
+}
+
+.marca h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 23px;
+    margin: 0;
+}
+
+.marca span {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--rosa-suave);
+}
+
+/* PRESENTACIÓN */
+
+.etiqueta {
+    color: #e9a1be;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.presentacion h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(38px, 3.4vw, 59px);
+    line-height: 1.08;
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin-bottom: 24px;
+}
+
+.presentacion h1 span {
+    color: var(--rosa-suave);
+}
+
+.descripcion {
+    max-width: 460px;
+    font-size: 14px;
+    line-height: 1.9;
+    color: #f1dce5;
+}
+
+/* TARJETAS */
+
+.tarjetas {
+    margin-top: 38px;
+}
+
+.tarjeta {
+    min-height: 110px;
+    padding: 16px 14px;
+    border-radius: 15px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.13);
+}
+
+.tarjeta i {
+    display: block;
+    color: #e5a4c0;
+    font-size: 19px;
+    margin-bottom: 13px;
+}
+
+.tarjeta h6 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.tarjeta p {
+    font-size: 12px;
+    color: #d7b5c3;
+    margin: 0;
+}
+
+/* PANEL DERECHO */
+
+.panel-login {
+    min-height: 100vh;
+    background: var(--fondo);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+}
+
+.formulario-contenedor {
+    width: 100%;
+    max-width: 540px;
+}
+
+.etiqueta-login {
+    color: #a43b69;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.formulario-contenedor h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 34px;
+    font-weight: 700;
+    color: #301321;
+    margin-bottom: 8px;
+}
+
+.subtitulo {
+    font-size: 13px;
+    color: #718096;
+    margin-bottom: 30px;
+}
+
+.form-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #321c29;
+    margin-bottom: 9px;
+}
+
+.form-control {
+    height: 44px;
+    border: 1px solid #e6dfe3;
+    border-radius: 11px;
+    font-size: 13px;
+    padding: 10px 14px;
+}
+
+.form-control:focus {
+    border-color: #b84b78;
+    box-shadow: 0 0 0 3px rgba(164,59,105,0.12);
+}
+
+.acceso-seguro {
+    color: #a43b69;
+    font-size: 11px;
+}
+
+.btn-ingresar {
+    height: 45px;
+    background: var(--rosado);
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 10px;
+    box-shadow: 0 8px 18px rgba(164,59,105,0.20);
+}
+
+.btn-ingresar:hover {
+    background: #8b2e55;
+    color: white;
+}
+
+.pie-login {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 10px;
+    color: #718096;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 991px) {
+    .panel-marca {
+        min-height: auto;
+    }
+
+    .contenido-marca {
+        padding: 45px 30px;
+    }
+
+    .marca {
+        margin-bottom: 35px;
+    }
+
+    .presentacion h1 {
+        font-size: 40px;
+    }
+
+    .panel-login {
+        min-height: 580px;
+        padding: 45px 25px;
+    }
+}
+
+@media (max-width: 576px) {
+    .tarjetas {
+        display: none;
+    }
+
+    .presentacion h1 {
+        font-size: 32px;
+    }
+
+    .formulario-contenedor h2 {
+        font-size: 29px;
+    }
+}
